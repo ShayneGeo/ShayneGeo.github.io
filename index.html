@@ -3,98 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Shayne's Wild Website</title>
+    <title>Welcome to Shayne's Website</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto+Mono:wght@500&display=swap');
-
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #0A0A0A;
-            color: #F0F0F0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
         }
-
         header {
-            background-image: linear-gradient(90deg, #FF0080, #7928CA);
-            color: #FFF;
+            background-color: #333;
+            color: #fff;
             text-align: center;
-            padding: 40px 0;
-            font-size: 2em;
+            padding: 20px 0;
         }
-
         nav ul {
             list-style-type: none;
             padding: 0;
             text-align: center;
-            background-color: #1C1C1E;
-            overflow: hidden;
-            margin: 0;
         }
-
         nav ul li {
-            display: inline-block;
-            margin: 0 20px;
+            display: inline;
+            margin-right: 20px;
         }
-
         nav ul li a {
-            color: #FF0080;
+            color: #333;
             text-decoration: none;
             font-weight: bold;
-            transition: color 0.3s;
         }
-
         nav ul li a:hover {
-            color: #7928CA;
+            color: #555;
         }
-
         section {
-            background-color: #121212;
-            padding: 40px 20px;
-            margin: 20px auto;
-            max-width: 800px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease-in-out;
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-
-        section:hover {
-            transform: scale(1.02);
-        }
-
         footer {
-            background-color: #1C1C1E;
-            color: #FFF;
+            background-color: #333;
+            color: #fff;
             text-align: center;
             padding: 20px 0;
-            font-family: 'Roboto Mono', monospace;
         }
-
         footer a {
-            color: #FF0080;
+            color: #ffffff;
             text-decoration: none;
-            transition: color 0.3s;
         }
-
         footer a:hover {
-            color: #7928CA;
+            color: #ffffff;
         }
-
-        h1, h2 {
-            font-family: 'Roboto Mono', monospace;
-            color: #FF0080;
-        }
-
-        p {
-            line-height: 1.6;
-            color: #B3B3B3;
+        .about-img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%; /* Adjust the width as necessary */
+            border-radius: 5px; /* Optional: Adds rounded corners to the image */
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Welcome to Shayne's Wild Website</h1>
+        <h1>Welcome to Shayne's Amazing Website</h1>
     </header>
     <nav>
         <ul>
@@ -106,7 +77,9 @@
     </nav>
     <section>
         <h2>About Me</h2>
-        <p>Welcome to my corner of the internet!!! I'm Shayne Magstadt and I'm excited to share my journey with you through this website.</p>
+        <p>Welcome to my corner of the internet!!! I'm Shayne Magstadt, a passionate web developer and wildfire management researcher based in Colorado. I love using technology to tackle real-world challenges, and I'm excited to share my journey with you through this website.</p>
+        <!-- Adding an image below the About Me text -->
+        <img src="Derp.jpg" alt="Description of Image" class="about-img">
     </section>
     <footer>
         <p>Contact me at: <a href="mailto:Shayne.Magstadt@colostate.edu">Shayne.Magstadt@colostate.edu</a></p>
