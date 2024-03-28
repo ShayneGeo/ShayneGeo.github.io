@@ -63,19 +63,25 @@
 
         <div class="section">
             <h1>Introduction</h1>
-            <p>In recent years, Colorado has faced severe wildfires, causing extensive damage to forests, communities, and wildlife. Hazardous fuel management through treatments like prescribed burns and mechanical methods plays a pivotal role in mitigating future wildfire risks. These treatments reduce vegetation fuels, decreasing the potential for large, damaging wildfires and aiding in maintaining forest configurations that can mitigate fire intensity. This study presents a novel approach using artificial neural networks (ANNs) to analyze historical land management data, aiming to understand the environmental factors influencing hazardous fuel treatment decisions in Colorado’s national forests.</p>
+            <p>Weather is a crucial factor in wildfires, and while numerical data provide a foundation for prediction, the complexity of fire spread often eludes straightforward numerical modeling. The project proposes that the subtleties contained within textual weather forecasts might hold the key to better predictions. These forecasts often include qualitative evaluations that capture the nuanced conditions conducive to fire spread.</p>
         </div>
         <div class="section">
             <h2>Methods</h2>
-            <p>The study employed a neural network model to analyze historical data from the Forest Activity Tracking System, covering two decades of hazardous fuel treatments in Colorado. The model utilized variables including historic fuels, landscape, and human features, applying a feedforward backpropagation technique to divide data into training and test sets. Key variables were fire characteristics, wildfire risk, landscape features, and anthropogenic factors. Multicollinearity testing and feature normalization were conducted to refine the model inputs, and the model was trained using a multilayer perceptron architecture optimized through KerasTuner.</p>
+            <p>This study harnesses detailed weather forecasts that go beyond mere numbers, translating meteorologist language into actionable data through BERT, a revolutionary NLP model. The idea is to teach this model to interpret the context-rich language typically found in weather reports – like "afternoon showers" or "scattered showers likely throughout the day" – and relate it to fire spread patterns. This complex data will be labeled using VIIRS fire growth models, enhancing the dataset for analysis. The training process involves prompting BERT with questions tied to fire progression, grounded in meticulous data curation from meteorological forecasts. This methodology signifies a meticulous process of validation and hyperparameter refinement to achieve a model that is both intricate in its analysis and generalizable in its application.</p>
         </div>
         <div class="section">
-            <h2>Results</h2>
-            <p>The ANN model demonstrated an average area under the curve (AUC) of 0.78, highlighting significant factors like burn probability and proximity to structures in determining fuel treatment locations. The model’s performance varied across different national forests and treatment types, indicating its nuanced understanding of the spatial dynamics of hazardous fuel treatments. Variable importance analysis revealed burn probability as the most influential factor, with structural and road proximity also playing critical roles in the model's predictions.</p>
-        </div>
-        <div class="section">
-            <h2>Discussion</h2>
-            <p>The application of ANNs in this study provided a robust method for analyzing historical hazardous fuel treatment choices, aiding in future forest management. While the model showed strong predictive capabilities, the complexity of wildfire management necessitates careful interpretation of the results. The study underlines the importance of integrating scientific research with practical management strategies to enhance wildfire mitigation efforts. Future research should expand on this work, integrating additional variables and exploring other machine learning techniques to further understand and optimize hazardous fuel treatment strategies.</p>
+            <h2>Major Contributions a</h2>
+            <p>This work represents a groundbreaking fusion of meteorological acumen and cutting-edge NLP technology, paving the way for transformative advancements in wildfire risk management. By integrating fuel conditions and fire size dynamics into the predictive models, the study extends beyond traditional parameters, offering a comprehensive view of wildfire behavior.
+
+The potential for expansion is vast and thrilling. Leveraging OpenAI's GPT models, the research could incorporate detailed geospatial feature maps, capturing intricate details of urban, rural, and natural landscapes. This inclusion would allow for an unprecedented level of detail in risk assessment, factoring in the proximity to critical infrastructure, population density, and ecological value of the areas at risk.
+
+Furthermore, this work could pioneer the development of interactive, AI-driven platforms for wildfire management. These systems could simulate various mitigation strategies, providing real-time feedback on their potential effectiveness. With advancements in AI, it’s conceivable to create a dynamic model that not only predicts fire spread but also recommends optimal response strategies, adjusting to changing conditions in real-time.
+
+Additionally, the integration of remote sensing data, such as satellite imagery and drone reconnaissance, could enhance the model's accuracy and responsiveness. This could lead to a holistic fire management system that synthesizes data from multiple sources, offering a multi-dimensional view of wildfire threats.
+
+In the realm of public safety and environmental protection, this work could also facilitate the development of educational tools and public awareness campaigns. By simulating potential fire scenarios and their impacts on different regions, communities can better understand the importance of preventive measures and land management practices.
+
+In summary, this work not only stands as a significant contribution to wildfire prediction but also opens a gateway to a future where technology and environmental stewardship converge to safeguard lives, properties, and natural habitats against the ever-present threat of wildfires.</p>
             <a href="projects.html" class="button">Back to Research</a>
         </div>
     </div>
