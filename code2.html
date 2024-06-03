@@ -7,18 +7,42 @@
     <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             background-color: #333;
+            color: #fff;
         }
         canvas {
             border: 1px solid #fff;
+            margin-top: 20px;
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .controls input {
+            margin: 5px;
         }
     </style>
 </head>
 <body>
+    <div class="controls">
+        <label for="length">Initial Length:</label>
+        <input type="number" id="length" value="120">
+        <label for="angle">Angle:</label>
+        <input type="number" id="angle" value="15">
+        <label for="branchWidth">Branch Width:</label>
+        <input type="number" id="branchWidth" value="10">
+        <label for="color1">Color 1:</label>
+        <input type="color" id="color1" value="#ffffff">
+        <label for="color2">Color 2:</label>
+        <input type="color" id="color2" value="#f4f4f2">
+        <button onclick="updateFractalTree()">Draw Fractal Tree</button>
+    </div>
     <canvas id="fractalTreeCanvas" width="800" height="600"></canvas>
     <script>
         function drawFractalTree(ctx, startX, startY, length, angle, branchWidth, color1, color2) {
@@ -46,11 +70,20 @@
             ctx.restore();
         }
 
-        window.onload = function() {
+        function updateFractalTree() {
+            const length = parseInt(document.getElementById('length').value);
+            const angle = parseInt(document.getElementById('angle').value);
+            const branchWidth = parseInt(document.getElementById('branchWidth').value);
+            const color1 = document.getElementById('color1').value;
+            const color2 = document.getElementById('color2').value;
             const canvas = document.getElementById('fractalTreeCanvas');
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawFractalTree(ctx, canvas.width / 2, canvas.height - 80, 120, 0, 10, '#fff', '#f4f4f2');
+            drawFractalTree(ctx, canvas.width / 2, canvas.height - 80, length, 0, branchWidth, color1, color2);
+        }
+
+        window.onload = function() {
+            updateFractalTree(); // Draw initial fractal tree with default values
         };
     </script>
 </body>
