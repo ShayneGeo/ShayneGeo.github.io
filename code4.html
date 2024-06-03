@@ -48,11 +48,14 @@
     <div class="controls">
         <label for="cubeSize">Cube Size:</label>
         <input type="range" id="cubeSize" min="1" max="5" step="0.1" value="2">
+        <label for="rotationSpeed">Rotation Speed:</label>
+        <input type="range" id="rotationSpeed" min="0.01" max="0.1" step="0.01" value="0.05">
         <a href="codebutton.html" class="button">Back to Codebutton</a>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
         let scene, camera, renderer, cube;
+        let rotationSpeed = 0.05; // Default rotation speed
 
         function init() {
             // Scene setup
@@ -74,6 +77,7 @@
             // Handle window resize
             window.addEventListener('resize', onWindowResize, false);
             document.getElementById('cubeSize').addEventListener('input', onCubeSizeChange);
+            document.getElementById('rotationSpeed').addEventListener('input', onRotationSpeedChange);
 
             // Animation loop
             animate();
@@ -90,10 +94,14 @@
             cube.scale.set(size, size, size);
         }
 
+        function onRotationSpeedChange(event) {
+            rotationSpeed = parseFloat(event.target.value);
+        }
+
         function animate() {
             requestAnimationFrame(animate);
-            cube.rotation.x += 0.01;
-            cube.rotation.y += 0.01;
+            cube.rotation.x += rotationSpeed;
+            cube.rotation.y += rotationSpeed;
             renderer.render(scene, camera);
         }
 
