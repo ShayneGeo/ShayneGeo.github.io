@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Rotating Cube</title>
+    <title>3D Shape Rotator</title>
     <style>
         body {
             margin: 0;
-            overflow: hidden; /* Prevent scrolling */
+            overflow: hidden;
             background-color: #333;
             display: flex;
             justify-content: center;
@@ -46,40 +46,41 @@
 </head>
 <body>
     <div class="controls">
-        <label for="cubeSize">Cube Size:</label>
-        <input type="range" id="cubeSize" min="1" max="5" step="0.1" value="2">
+        <label for="shapeType">Select Shape:</label>
+        <select id="shapeType">
+            <option value="cube">Cube</option>
+            <option value="sphere">Sphere</option>
+        </select>
+        <label for="size">Size:</label>
+        <input type="range" id="size" min="1" max="5" step="0.1" value="2">
         <label for="rotationSpeed">Rotation Speed:</label>
         <input type="range" id="rotationSpeed" min="0.01" max="0.1" step="0.01" value="0.05">
-        <a href="codebuttons.html" class="button">Back to Codebutton</a>
+        <a href="codebutton.html" class="button">Back to Codebutton</a>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        let scene, camera, renderer, cube;
-        let rotationSpeed = 0.05; // Default rotation speed
+        let scene, camera, renderer, shape;
+        let rotationSpeed = 0.05;
 
         function init() {
-            // Scene setup
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
             camera.position.z = 5;
 
-            // Renderer setup
             renderer = new THREE.WebGLRenderer();
             renderer.setSize(window.innerWidth, window.innerHeight);
             document.body.appendChild(renderer.domElement);
 
-            // Cube setup
             const geometry = new THREE.BoxGeometry();
             const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
-            cube = new THREE.Mesh(geometry, material);
-            scene.add(cube);
+            shape = new THREE.Mesh(geometry, material);
+            scene.add(shape);
 
-            // Handle window resize
             window.addEventListener('resize', onWindowResize, false);
-            document.getElementById('cubeSize').addEventListener('input', onCubeSizeChange);
+            document.getElementById('size').addEventListener('input', onSizeChange);
             document.getElementById('rotationSpeed').addEventListener('input', onRotationSpeedChange);
+            document.getElementById('shapeType').addEventListener('change', onShapeTypeChange);
 
-            // Animation loop
             animate();
         }
 
@@ -89,19 +90,32 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
-        function onCubeSizeChange(event) {
+        function onSizeChange(event) {
             const size = event.target.value;
-            cube.scale.set(size, size, size);
+            shape.scale.set(size, size, size);
         }
 
         function onRotationSpeedChange(event) {
             rotationSpeed = parseFloat(event.target.value);
         }
 
+        function onShapeTypeChange(event) {
+            const shapeType = event.target.value;
+            scene.remove(shape);
+            if (shapeType === 'cube') {
+                const geometry = new THREE.BoxGeometry();
+                shape = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true }));
+            } else if (shapeType === 'sphere') {
+                const geometry = new THREE.SphereGeometry();
+                shape = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true }));
+            }
+            scene.add(shape);
+        }
+
         function animate() {
             requestAnimationFrame(animate);
-            cube.rotation.x += rotationSpeed;
-            cube.rotation.y += rotationSpeed;
+            shape.rotation.x += rotationSpeed;
+            shape.rotation.y += rotationSpeed;
             renderer.render(scene, camera);
         }
 
