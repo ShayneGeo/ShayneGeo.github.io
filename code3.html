@@ -23,15 +23,37 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 20px; /* Move the input boxes down a bit */
+            margin-top: 20px;
         }
-        .controls input, .controls label {
+        .controls input, .controls label, .controls button, .controls a {
             margin: 5px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #ff6f61;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #ff4940;
         }
     </style>
 </head>
 <body>
-    <h1>Agent-Based Modeling Simulation</h1>
+    <h1>Agent-Based Modeling: Predator and Prey</h1>
+    <div class="controls">
+        <label for="numPrey">Number of Prey:</label>
+        <input type="number" id="numPrey" value="50">
+        <label for="numPredators">Number of Predators:</label>
+        <input type="number" id="numPredators" value="5">
+        <button onclick="setupSimulation()">Start Simulation</button>
+        <a href="codebutton.html" class="button">Back to Codebutton</a>
+    </div>
     <canvas id="abmCanvas" width="800" height="600"></canvas>
     <script>
         class Agent {
@@ -39,42 +61,108 @@
                 this.x = x;
                 this.y = y;
                 this.color = color;
+                this.size = 5;
             }
 
-            move() {
-                this.x += (Math.random() - 0.5) * 10;
-                this.y += (Math.random() - 0.5) * 10;
-                
-                // Ensure the agent stays within the canvas bounds
-                if (this.x < 0) this.x = 0;
-                if (this.x > 800) this.x = 800;
-                if (this.y < 0) this.y = 0;
-                if (this.y > 600) this.y = 600;
+            distance(other) {
+                return Math.sqrt((this.x - other.x) ** 2 + (this.y - other.y) ** 2);
             }
 
             draw(ctx) {
                 ctx.fillStyle = this.color;
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, 5, 0, Math.PI * 2);
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
 
+        class Prey extends Agent {
+            constructor(x, y) {
+                super(x, y, 'white');
+            }
+
+            move() {
+                this.x += (Math.random() - 0.5) * 10;
+                this.y += (Math.random() - 0.5) * 10;
+
+                // Ensure the prey stays within the canvas bounds
+                if (this.x < 0) this.x = 0;
+                if (this.x > 800) this.x = 800;
+                if (this.y < 0) this.y = 0;
+                if (this.y > 600) this.y = 600;
+            }
+        }
+
+        class Predator extends Agent {
+            constructor(x, y) {
+                super(x, y, 'red');
+                this.size = 8;
+            }
+
+            move(preyList) {
+                if (preyList.length === 0) return;
+
+                // Find the nearest prey
+                let nearestPrey = preyList[0];
+                let minDist = this.distance(nearestPrey);
+
+                for (const prey of preyList) {
+                    const dist = this.distance(prey);
+                    if (dist < minDist) {
+                        minDist = dist;
+                        nearestPrey = prey;
+                    }
+                }
+
+                // Move towards the nearest prey
+                const angle = Math.atan2(nearestPrey.y - this.y, nearestPrey.x - this.x);
+                this.x += Math.cos(angle) * 5;
+                this.y += Math.sin(angle) * 5;
+
+                // Ensure the predator stays within the canvas bounds
+                if (this.x < 0) this.x = 0;
+                if (this.x > 800) this.x = 800;
+                if (this.y < 0) this.y = 0;
+                if (this.y > 600) this.y = 600;
+
+                // Check if the predator catches the prey
+                if (this.distance(nearestPrey) < this.size + nearestPrey.size) {
+                    const index = preyList.indexOf(nearestPrey);
+                    if (index > -1) {
+                        preyList.splice(index, 1); // Remove the caught prey
+                    }
+                }
+            }
+        }
+
         function setupSimulation() {
+            const numPrey = parseInt(document.getElementById('numPrey').value);
+            const numPredators = parseInt(document.getElementById('numPredators').value);
             const canvas = document.getElementById('abmCanvas');
             const ctx = canvas.getContext('2d');
 
-            const agents = [];
-            for (let i = 0; i < 100; i++) {
-                agents.push(new Agent(Math.random() * 800, Math.random() * 600, 'white'));
+            const preyList = [];
+            const predatorList = [];
+
+            for (let i = 0; i < numPrey; i++) {
+                preyList.push(new Prey(Math.random() * 800, Math.random() * 600));
+            }
+
+            for (let i = 0; i < numPredators; i++) {
+                predatorList.push(new Predator(Math.random() * 800, Math.random() * 600));
             }
 
             function update() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                for (const agent of agents) {
-                    agent.move();
-                    agent.draw(ctx);
+
+                for (const prey of preyList) {
+                    prey.move();
+                    prey.draw(ctx);
+                }
+
+                for (const predator of predatorList) {
+                    predator.move(preyList);
+                    predator.draw(ctx);
                 }
 
                 requestAnimationFrame(update);
@@ -82,8 +170,6 @@
 
             update();
         }
-
-        window.onload = setupSimulation;
     </script>
 </body>
 </html>
