@@ -25,7 +25,7 @@
             align-items: center;
             margin-top: 20px; /* Move the input boxes down a bit */
         }
-        .controls input, .controls label, .controls button, .controls a {
+        .controls input, .controls label, .controls button {
             margin: 5px;
         }
         .button {
@@ -38,6 +38,7 @@
             border-radius: 5px;
             text-decoration: none;
             transition: background-color 0.3s ease;
+            margin-top: 20px; /* Ensure there's space above the button */
         }
         .button:hover {
             background-color: #ff4940;
@@ -49,9 +50,9 @@
         <label for="length">Initial Length:</label>
         <input type="number" id="length" value="80">
         <button onclick="updateFractalTree()">Draw Fractal Tree</button>
-        <a href="codebutton.html" class="button">Back to Codebutton</a>
     </div>
     <canvas id="fractalTreeCanvas" width="400" height="400"></canvas>
+    <a href="codebutton.html" class="button">Back to Codebutton</a>
     <script>
         function drawFractalTree(ctx, startX, startY, length, angle, branchWidth, color) {
             ctx.beginPath();
@@ -83,7 +84,7 @@
             const canvas = document.getElementById('fractalTreeCanvas');
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawFractalTree(ctx, canvas.width / 2, canvas.height - 20, length, 0, 10, color);
+            drawFractalTree(ctx, canvas.width / 2, canvas.height - 20, length, 0, 2, color);
         }
 
         window.onload = function() {
