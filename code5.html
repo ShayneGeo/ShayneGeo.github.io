@@ -58,7 +58,7 @@
         let ballSpeedY = 5;
         let paddleHeight = 100;
         let paddleWidth = 10;
-        let paddleY = (canvas.height - paddleHeight) / 2;
+        let playerPaddleY = (canvas.height - paddleHeight) / 2;
         let computerPaddleY = (canvas.height - paddleHeight) / 2;
         let difficulty = 'easy';
 
@@ -72,7 +72,7 @@
 
         function drawPaddle(y) {
             ctx.beginPath();
-            ctx.rect(canvas.width - paddleWidth, y, paddleWidth, paddleHeight);
+            ctx.rect(0, y, paddleWidth, paddleHeight);
             ctx.fillStyle = '#fff';
             ctx.fill();
             ctx.closePath();
@@ -81,7 +81,7 @@
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawBall();
-            drawPaddle(paddleY);
+            drawPaddle(playerPaddleY);
             drawPaddle(computerPaddleY);
 
             // Move computer paddle
@@ -98,7 +98,7 @@
 
             // Ball collision with paddles
             if (ballX + ballSpeedX > canvas.width - paddleWidth && ballY > computerPaddleY && ballY < computerPaddleY + paddleHeight ||
-                ballX + ballSpeedX < paddleWidth && ballY > paddleY && ballY < paddleY + paddleHeight) {
+                ballX + ballSpeedX < paddleWidth && ballY > playerPaddleY && ballY < playerPaddleY + paddleHeight) {
                 ballSpeedX = -ballSpeedX;
             }
 
@@ -117,10 +117,10 @@
         }
 
         function handleKeyDown(event) {
-            if (event.key === 'ArrowUp' && paddleY > 0) {
-                paddleY -= 20;
-            } else if (event.key === 'ArrowDown' && paddleY < canvas.height - paddleHeight) {
-                paddleY += 20;
+            if (event.key === 'ArrowUp' && playerPaddleY > 0) {
+                playerPaddleY -= 20;
+            } else if (event.key === 'ArrowDown' && playerPaddleY < canvas.height - paddleHeight) {
+                playerPaddleY += 20;
             }
         }
 
