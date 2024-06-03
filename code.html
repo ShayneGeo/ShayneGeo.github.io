@@ -49,7 +49,7 @@
             let i = 0;
             const steps = 20000; // Increase this number for a more detailed spirograph
             ctx.beginPath();
-            ctx.moveTo(x1 + 400, y1 + 400);
+            ctx.moveTo(x1 + 300, y1 + 300);
             for (i = 0; i <= steps; i++) {
                 let angle = i * Math.PI / 72;
                 let x2 = (R + r) * Math.cos(angle) - (r + O) * Math.cos(((R + r) / r) * angle);
