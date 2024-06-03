@@ -46,18 +46,16 @@
             ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clear the canvas
             let x1 = R - O;
             let y1 = 0;
-            let i = 1;
+            let i = 0;
+            const steps = 20000; // Increase this number for a more detailed spirograph
             ctx.beginPath();
             ctx.moveTo(x1 + 400, y1 + 400);
-            do {
-                if (i > 20000) break;
-                let x2 = (R + r) * Math.cos(i * Math.PI / 72) - (r + O) * Math.cos(((R + r) / r) * (i * Math.PI / 72));
-                let y2 = (R + r) * Math.sin(i * Math.PI / 72) - (r + O) * Math.sin(((R + r) / r) * (i * Math.PI / 72));
+            for (i = 0; i <= steps; i++) {
+                let angle = i * Math.PI / 72;
+                let x2 = (R + r) * Math.cos(angle) - (r + O) * Math.cos(((R + r) / r) * angle);
+                let y2 = (R + r) * Math.sin(angle) - (r + O) * Math.sin(((R + r) / r) * angle);
                 ctx.lineTo(x2 + 400, y2 + 400);
-                x1 = x2;
-                y1 = y2;
-                i++;
-            } while (x2 !== R - O && y2 !== 0);
+            }
             ctx.strokeStyle = '#2c5f2d';
             ctx.stroke();
         }
