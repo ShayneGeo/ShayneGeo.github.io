@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spirograph</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f2; /* Light earthy background */
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        canvas {
+            border: 1px solid #333;
+            margin-top: 20px;
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .controls input {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spirograph</h1>
+    <div class="controls">
+        <label for="R">R (fixed circle radius):</label>
+        <input type="number" id="R" value="220">
+        <label for="r">r (moving circle radius):</label>
+        <input type="number" id="r" value="65">
+        <label for="O">O (offset):</label>
+        <input type="number" id="O" value="75">
+        <button onclick="updateSpirograph()">Draw Spirograph</button>
+    </div>
+    <canvas id="spirographCanvas" width="800" height="800"></canvas>
+    <script>
+        function drawSpirograph(ctx, R, r, O) {
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clear the canvas
+            let x1 = R - O;
+            let y1 = 0;
+            let i = 1;
+            ctx.beginPath();
+            ctx.moveTo(x1 + 400, y1 + 400);
+            do {
+                if (i > 20000) break;
+                let x2 = (R + r) * Math.cos(i * Math.PI / 72) - (r + O) * Math.cos(((R + r) / r) * (i * Math.PI / 72));
+                let y2 = (R + r) * Math.sin(i * Math.PI / 72) - (r + O) * Math.sin(((R + r) / r) * (i * Math.PI / 72));
+                ctx.lineTo(x2 + 400, y2 + 400);
+                x1 = x2;
+                y1 = y2;
+                i++;
+            } while (x2 !== R - O && y2 !== 0);
+            ctx.strokeStyle = '#2c5f2d';
+            ctx.stroke();
+        }
+
+        function updateSpirograph() {
+            const R = parseInt(document.getElementById('R').value);
+            const r = parseInt(document.getElementById('r').value);
+            const O = parseInt(document.getElementById('O').value);
+            const canvas = document.getElementById('spirographCanvas');
+            const ctx = canvas.getContext('2d');
+            drawSpirograph(ctx, R, r, O);
+        }
+
+        window.onload = function() {
+            updateSpirograph(); // Draw initial spirograph with default values
+        };
+    </script>
+</body>
+</html>
