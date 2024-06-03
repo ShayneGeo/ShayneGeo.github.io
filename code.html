@@ -38,22 +38,25 @@
         <input type="number" id="r" value="65">
         <label for="O">O (offset):</label>
         <input type="number" id="O" value="75">
+        <label for="chaos">Chaos Level:</label>
+        <input type="range" id="chaos" min="0" max="10" value="0" step="1">
         <button onclick="updateSpirograph()">Draw Spirograph</button>
     </div>
     <canvas id="spirographCanvas" width="800" height="800"></canvas>
     <script>
-        function drawSpirograph(ctx, R, r, O) {
+        function drawSpirograph(ctx, R, r, O, chaos) {
             ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clear the canvas
             let x1 = R - O;
             let y1 = 0;
             let i = 0;
             const steps = 20000; // Increase this number for a more detailed spirograph
             ctx.beginPath();
-            ctx.moveTo(x1 + 300, y1 + 300);
+            ctx.moveTo(x1 + 400, y1 + 400);
             for (i = 0; i <= steps; i++) {
                 let angle = i * Math.PI / 72;
-                let x2 = (R + r) * Math.cos(angle) - (r + O) * Math.cos(((R + r) / r) * angle);
-                let y2 = (R + r) * Math.sin(angle) - (r + O) * Math.sin(((R + r) / r) * angle);
+                let randomFactor = 1 + (Math.random() - 0.5) * chaos / 10;
+                let x2 = randomFactor * ((R + r) * Math.cos(angle) - (r + O) * Math.cos(((R + r) / r) * angle));
+                let y2 = randomFactor * ((R + r) * Math.sin(angle) - (r + O) * Math.sin(((R + r) / r) * angle));
                 ctx.lineTo(x2 + 400, y2 + 400);
             }
             ctx.strokeStyle = '#2c5f2d';
@@ -64,9 +67,10 @@
             const R = parseInt(document.getElementById('R').value);
             const r = parseInt(document.getElementById('r').value);
             const O = parseInt(document.getElementById('O').value);
+            const chaos = parseInt(document.getElementById('chaos').value);
             const canvas = document.getElementById('spirographCanvas');
             const ctx = canvas.getContext('2d');
-            drawSpirograph(ctx, R, r, O);
+            drawSpirograph(ctx, R, r, O, chaos);
         }
 
         window.onload = function() {
