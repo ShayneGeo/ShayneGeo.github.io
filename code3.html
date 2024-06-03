@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent-Based Modeling</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #333;
+            color: #fff;
+        }
+        canvas {
+            border: 1px solid #fff;
+            margin-top: 20px;
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px; /* Move the input boxes down a bit */
+        }
+        .controls input, .controls label {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Agent-Based Modeling Simulation</h1>
+    <canvas id="abmCanvas" width="800" height="600"></canvas>
+    <script>
+        class Agent {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+            }
+
+            move() {
+                this.x += (Math.random() - 0.5) * 10;
+                this.y += (Math.random() - 0.5) * 10;
+                
+                // Ensure the agent stays within the canvas bounds
+                if (this.x < 0) this.x = 0;
+                if (this.x > 800) this.x = 800;
+                if (this.y < 0) this.y = 0;
+                if (this.y > 600) this.y = 600;
+            }
+
+            draw(ctx) {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function setupSimulation() {
+            const canvas = document.getElementById('abmCanvas');
+            const ctx = canvas.getContext('2d');
+
+            const agents = [];
+            for (let i = 0; i < 100; i++) {
+                agents.push(new Agent(Math.random() * 800, Math.random() * 600, 'white'));
+            }
+
+            function update() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                for (const agent of agents) {
+                    agent.move();
+                    agent.draw(ctx);
+                }
+
+                requestAnimationFrame(update);
+            }
+
+            update();
+        }
+
+        window.onload = setupSimulation;
+    </script>
+</body>
+</html>
