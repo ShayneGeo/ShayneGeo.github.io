@@ -59,7 +59,6 @@
         let paddleHeight = 100;
         let paddleWidth = 10;
         let playerPaddleY = (canvas.height - paddleHeight) / 2;
-        let computerPaddleY = (canvas.height - paddleHeight) / 2;
         let difficulty = 'easy';
 
         function drawBall() {
@@ -82,14 +81,6 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawBall();
             drawPaddle(playerPaddleY);
-            drawPaddle(computerPaddleY);
-
-            // Move computer paddle
-            if (difficulty === 'easy') {
-                computerPaddleY = ballY - paddleHeight / 2;
-            } else {
-                computerPaddleY += (ballY - (computerPaddleY + paddleHeight / 2)) * 0.1;
-            }
 
             // Ball collision with walls
             if (ballY + ballSpeedY > canvas.height || ballY + ballSpeedY < 0) {
@@ -97,8 +88,8 @@
             }
 
             // Ball collision with paddles
-            if (ballX + ballSpeedX > canvas.width - paddleWidth && ballY > computerPaddleY && ballY < computerPaddleY + paddleHeight ||
-                ballX + ballSpeedX < paddleWidth && ballY > playerPaddleY && ballY < playerPaddleY + paddleHeight) {
+            if (ballX + ballSpeedX > canvas.width - paddleWidth && ballY > playerPaddleY && ballY < playerPaddleY + paddleHeight ||
+                ballX + ballSpeedX < paddleWidth) {
                 ballSpeedX = -ballSpeedX;
             }
 
