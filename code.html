@@ -24,7 +24,7 @@
             flex-direction: column;
             align-items: center;
         }
-        .controls input {
+        .controls input, .controls select {
             margin: 5px;
         }
     </style>
@@ -40,11 +40,16 @@
         <input type="number" id="O" value="75">
         <label for="chaos">Chaos Level:</label>
         <input type="range" id="chaos" min="0" max="10" value="0" step="1">
+        <label for="mode">Mode:</label>
+        <select id="mode">
+            <option value="1">Mode 1</option>
+            <option value="2">Mode 2</option>
+        </select>
         <button onclick="updateSpirograph()">Draw Spirograph</button>
     </div>
     <canvas id="spirographCanvas" width="800" height="800"></canvas>
     <script>
-        function drawSpirograph(ctx, R, r, O, chaos) {
+        function drawSpirograph(ctx, R, r, O, chaos, mode) {
             ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clear the canvas
             let x1 = R - O;
             let y1 = 0;
@@ -55,8 +60,17 @@
             for (i = 0; i <= steps; i++) {
                 let angle = i * Math.PI / 72;
                 let randomFactor = 1 + (Math.random() - 0.5) * chaos / 10;
-                let x2 = randomFactor * ((R + r) * Math.cos(angle) - (r + O) * Math.cos(((R + r) / r) * angle));
-                let y2 = randomFactor * ((R + r) * Math.sin(angle) - (r + O) * Math.sin(((R + r) / r) * angle));
+                let x2, y2;
+
+                if (mode === "1") {
+                    x2 = randomFactor * ((R + r) * Math.cos(angle) - (r + O) * Math.cos(((R + r) / r) * angle));
+                    y2 = randomFactor * ((R + r) * Math.sin(angle) - (r + O) * Math.sin(((R + r) / r) * angle));
+                } else if (mode === "2") {
+                    // New equation for Mode 2
+                    x2 = randomFactor * ((R + r) * Math.cos(angle) - (r + O) * Math.sin(((R + r) / r) * angle));
+                    y2 = randomFactor * ((R + r) * Math.sin(angle) - (r + O) * Math.cos(((R + r) / r) * angle));
+                }
+
                 ctx.lineTo(x2 + 400, y2 + 400);
             }
             ctx.strokeStyle = '#2c5f2d';
@@ -68,9 +82,10 @@
             const r = parseInt(document.getElementById('r').value);
             const O = parseInt(document.getElementById('O').value);
             const chaos = parseInt(document.getElementById('chaos').value);
+            const mode = document.getElementById('mode').value;
             const canvas = document.getElementById('spirographCanvas');
             const ctx = canvas.getContext('2d');
-            drawSpirograph(ctx, R, r, O, chaos);
+            drawSpirograph(ctx, R, r, O, chaos, mode);
         }
 
         window.onload = function() {
