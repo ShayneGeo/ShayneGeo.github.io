@@ -47,7 +47,7 @@
         </select>
         <button onclick="updateSpirograph()">Draw Spirograph</button>
     </div>
-    <canvas id="spirographCanvas" width="800" height="800"></canvas>
+    <canvas id="spirographCanvas" width="400" height="400"></canvas>
     <script>
         function drawSpirograph(ctx, R, r, O, chaos, mode) {
             ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clear the canvas
@@ -56,7 +56,7 @@
             let i = 0;
             const steps = 20000; // Increase this number for a more detailed spirograph
             ctx.beginPath();
-            ctx.moveTo(x1 + 400, y1 + 400);
+            ctx.moveTo(x1 + 200, y1 + 200);
             for (i = 0; i <= steps; i++) {
                 let angle = i * Math.PI / 72;
                 let randomFactor = 1 + (Math.random() - 0.5) * chaos / 10;
@@ -71,7 +71,7 @@
                     y2 = randomFactor * ((R + r) * Math.sin(angle) - (r + O) * Math.cos(((R + r) / r) * angle));
                 }
 
-                ctx.lineTo(x2 + 400, y2 + 400);
+                ctx.lineTo(x2 + 200, y2 + 200);
             }
             ctx.strokeStyle = '#2c5f2d';
             ctx.stroke();
