@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fractal Tree</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #333;
+        }
+        canvas {
+            border: 1px solid #fff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="fractalTreeCanvas" width="800" height="600"></canvas>
+    <script>
+        function drawFractalTree(ctx, startX, startY, length, angle, branchWidth, color1, color2) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.strokeStyle = color1;
+            ctx.fillStyle = color2;
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+            ctx.lineWidth = branchWidth;
+            ctx.translate(startX, startY);
+            ctx.rotate(angle * Math.PI / 180);
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, -length);
+            ctx.stroke();
+            
+            if (length < 10) {
+                ctx.restore();
+                return;
+            }
+            
+            drawFractalTree(ctx, 0, -length, length * 0.8, angle - 15, branchWidth * 0.7, color1, color2);
+            drawFractalTree(ctx, 0, -length, length * 0.8, angle + 15, branchWidth * 0.7, color1, color2);
+            
+            ctx.restore();
+        }
+
+        window.onload = function() {
+            const canvas = document.getElementById('fractalTreeCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawFractalTree(ctx, canvas.width / 2, canvas.height - 80, 120, 0, 10, '#fff', '#f4f4f2');
+        };
+    </script>
+</body>
+</html>
