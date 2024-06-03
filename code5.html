@@ -72,6 +72,7 @@
         function drawPaddle(y) {
             ctx.beginPath();
             ctx.rect(0, y, paddleWidth, paddleHeight);
+            ctx.rect(canvas.width - paddleWidth, y, paddleWidth, paddleHeight);
             ctx.fillStyle = '#fff';
             ctx.fill();
             ctx.closePath();
