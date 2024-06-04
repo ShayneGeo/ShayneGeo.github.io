@@ -1,134 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake Game</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        canvas {
-            border: 2px solid #000;
-        }
-        #backButton {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 10px 20px;
-            background-color: #008CBA;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guess the Number Game</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+  .container {
+    text-align: center;
+    margin-top: 50px;
+  }
+</style>
 </head>
 <body>
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
+<div class="container">
+  <h1>Guess the Number Game</h1>
+  <p>Enter a number between 1 and 100:</p>
+  <input type="number" id="userGuess" min="1" max="100">
+  <button onclick="checkGuess()">Submit Guess</button>
+  <p id="message"></p>
+</div>
 
-    <button id="backButton">Back to Index</button>
+<script>
+  // Generate a random number between min and max (inclusive)
+  function getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
-    <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
+  // Initialize the game
+  let randomNumber = getRandomNumber(1, 100);
+  let attempts = 0;
 
-        const snakeSize = 20;
-        let snake = [{ x: 200, y: 200 }];
-        let food = { x: 0, y: 0 };
-        let dx = snakeSize;
-        let dy = 0;
-        let score = 0;
+  // Function to check the user's guess
+  function checkGuess() {
+    let userGuess = parseInt(document.getElementById('userGuess').value);
 
-        function drawSnake() {
-            snake.forEach(segment => {
-                ctx.fillStyle = '#008000';
-                ctx.fillRect(segment.x, segment.y, snakeSize, snakeSize);
-                ctx.strokeStyle = '#fff';
-                ctx.strokeRect(segment.x, segment.y, snakeSize, snakeSize);
-            });
-        }
-
-        function drawFood() {
-            ctx.fillStyle = '#FF0000';
-            ctx.fillRect(food.x, food.y, snakeSize, snakeSize);
-        }
-
-        function moveSnake() {
-            const head = { x: snake[0].x + dx, y: snake[0].y + dy };
-            snake.unshift(head);
-
-            if (head.x === food.x && head.y === food.y) {
-                score++;
-                generateFood();
-            } else {
-                snake.pop();
-            }
-        }
-
-        function generateFood() {
-            const x = Math.floor(Math.random() * (canvas.width / snakeSize)) * snakeSize;
-            const y = Math.floor(Math.random() * (canvas.height / snakeSize)) * snakeSize;
-            food = { x, y };
-        }
-
-        function checkCollision() {
-            if (snake[0].x < 0 || snake[0].x >= canvas.width || snake[0].y < 0 || snake[0].y >= canvas.height) {
-                gameOver();
-            }
-
-            for (let i = 1; i < snake.length; i++) {
-                if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
-                    gameOver();
-                }
-            }
-        }
-
-        function gameOver() {
-            alert(`Game Over! Your score is ${score}`);
-            window.location.reload();
-        }
-
-        function gameLoop() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            drawSnake();
-            drawFood();
-            moveSnake();
-            checkCollision();
-
-            requestAnimationFrame(gameLoop);
-        }
-
-        generateFood();
-        gameLoop();
-
-        document.addEventListener('keydown', e => {
-            if (e.key === 'ArrowUp' && dy !== snakeSize) {
-                dx = 0;
-                dy = -snakeSize;
-            } else if (e.key === 'ArrowDown' && dy !== -snakeSize) {
-                dx = 0;
-                dy = snakeSize;
-            } else if (e.key === 'ArrowLeft' && dx !== snakeSize) {
-                dx = -snakeSize;
-                dy = 0;
-            } else if (e.key === 'ArrowRight' && dx !== -snakeSize) {
-                dx = snakeSize;
-                dy = 0;
-            }
-        });
-
-        const backButton = document.getElementById('backButton');
-        backButton.addEventListener('click', () => {
-            window.location.href = 'codebuttons.html'; 
-        });
-    </script>
+    if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+      document.getElementById('message').textContent = 'Please enter a valid number between 1 and 100.';
+    } else {
+      attempts++;
+      if (userGuess === randomNumber) {
+        document.getElementById('message').textContent = `Congratulations! You guessed the number in ${attempts} attempts.`;
+      } else if (userGuess < randomNumber) {
+        document.getElementById('message').textContent = 'Try a higher number.';
+      } else {
+        document.getElementById('message').textContent = 'Try a lower number.';
+      }
+    }
+  }
+</script>
 </body>
 </html>
