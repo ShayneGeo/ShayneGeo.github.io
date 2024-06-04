@@ -147,6 +147,14 @@
 
   // Start game on page load
   window.onload = initGame;
+
+  // Back button
+  const backButton = document.createElement('button');
+  backButton.textContent = 'Back to Code Buttons.html';
+  backButton.onclick = function() {
+    window.location.href = 'codebuttons.html';
+  };
+  document.body.appendChild(backButton);
 </script>
 </body>
 </html>
