@@ -33,6 +33,36 @@
   let dy = 0;
   let score = 0;
 
+  // Keyboard controls
+  document.addEventListener('keydown', e => {
+    switch (e.key) {
+      case 'ArrowUp':
+        if (dy !== snakeSize) {
+          dx = 0;
+          dy = -snakeSize;
+        }
+        break;
+      case 'ArrowDown':
+        if (dy !== -snakeSize) {
+          dx = 0;
+          dy = snakeSize;
+        }
+        break;
+      case 'ArrowLeft':
+        if (dx !== snakeSize) {
+          dx = -snakeSize;
+          dy = 0;
+        }
+        break;
+      case 'ArrowRight':
+        if (dx !== -snakeSize) {
+          dx = snakeSize;
+          dy = 0;
+        }
+        break;
+    }
+  });
+
   // Game loop
   function gameLoop() {
     moveSnake();
