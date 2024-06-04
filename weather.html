@@ -18,6 +18,7 @@
             background-color: #fff;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
         h1 {
             text-align: center;
@@ -25,18 +26,12 @@
         .form-group {
             margin-bottom: 20px;
         }
-        .form-group input {
-            width: 48%;
+        .form-group input[type="text"] {
+            width: 100%;
             padding: 10px;
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            margin-right: 4%;
-        }
-        .form-group::after {
-            content: "";
-            display: table;
-            clear: both;
         }
         .btn {
             display: block;
@@ -46,8 +41,16 @@
             background-color: #007bff;
             color: #fff;
             border: none;
-            border-radius: 5px;
+            border-radius: 50px;
             cursor: pointer;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-image: url('https://img.icons8.com/material-rounded/48/000000/cloud--v1.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 30px;
         }
         .weather-info {
             text-align: center;
@@ -59,29 +62,29 @@
             font-size: 18px;
             margin-bottom: 5px;
         }
-        .back-btn {
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Weather Widget</h1>
         <div class="form-group">
-            <input type="text" id="latitudeInput" placeholder="Latitude (E.g., 40.655253)">
-            <input type="text" id="longitudeInput" placeholder="Longitude (E.g., -105.308434)">
+            <label for="latInput">Latitude:</label>
+            <input type="text" id="latInput" placeholder="E.g., 40.655253">
         </div>
-        <button class="btn" onclick="getWeather()">Get Weather</button>
+        <div class="form-group">
+            <label for="longInput">Longitude:</label>
+            <input type="text" id="longInput" placeholder="E.g., -105.308434">
+        </div>
+        <button class="btn" onclick="getWeather()"></button>
         <div class="weather-info" id="weatherInfo"></div>
     </div>
 
-    <button class="back-btn" onclick="goBack()">Back to index.html</button>
-
     <script>
         function getWeather() {
-            const latitudeInput = document.getElementById('latitudeInput').value.trim();
-            const longitudeInput = document.getElementById('longitudeInput').value.trim();
-            const apiUrl = `https://api.weather.gov/points/${latitudeInput},${longitudeInput}`;
+            const lat = document.getElementById('latInput').value.trim();
+            const long = document.getElementById('longInput').value.trim();
+            const apiKey = 'YOUR_OPENWEATHER_API_KEY';
+            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${apiKey}&units=imperial`;
 
             fetch(apiUrl)
                 .then(response => {
@@ -91,23 +94,12 @@
                     return response.json();
                 })
                 .then(data => {
-                    const forecastUrl = data.properties.forecast;
-                    return fetch(forecastUrl);
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
                     const weatherInfo = document.getElementById('weatherInfo');
                     weatherInfo.innerHTML = `
-                        <img src="${data.properties.periods[0].icon}" alt="${data.properties.periods[0].shortForecast}">
-                        <p>Location: ${data.properties.relativeLocation.properties.city}, ${data.properties.relativeLocation.properties.state}</p>
-                        <p>Weather: ${data.properties.periods[0].shortForecast}</p>
-                        <p>Temperature: ${data.properties.periods[0].temperature}°F</p>
-                        <p>Wind Speed: ${data.properties.periods[0].windSpeed}</p>
+                        <p>Location: ${data.name}, ${data.sys.country}</p>
+                        <p>Weather: ${data.weather[0].description}</p>
+                        <p>Temperature: ${data.main.temp}°F</p>
+                        <p>Wind Speed: ${data.wind.speed} mph</p>
                     `;
                 })
                 .catch(error => {
@@ -115,10 +107,6 @@
                     const weatherInfo = document.getElementById('weatherInfo');
                     weatherInfo.innerHTML = '<p>Error fetching weather data. Please try again.</p>';
                 });
-        }
-
-        function goBack() {
-            window.location.href = 'index.html';
         }
     </script>
 </body>
