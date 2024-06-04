@@ -18,7 +18,6 @@
             background-color: #fff;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            position: relative;
         }
         h1 {
             text-align: center;
@@ -41,16 +40,8 @@
             background-color: #007bff;
             color: #fff;
             border: none;
-            border-radius: 50px;
+            border-radius: 5px;
             cursor: pointer;
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-image: url('https://img.icons8.com/material-rounded/48/000000/cloud--v1.png');
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: 30px;
         }
         .weather-info {
             text-align: center;
@@ -68,23 +59,17 @@
     <div class="container">
         <h1>Weather Widget</h1>
         <div class="form-group">
-            <label for="latInput">Latitude:</label>
-            <input type="text" id="latInput" placeholder="E.g., 40.655253">
+            <label for="locationInput">Enter Latitude/Longitude:</label>
+            <input type="text" id="locationInput" placeholder="E.g., 40.655253, -105.308434">
         </div>
-        <div class="form-group">
-            <label for="longInput">Longitude:</label>
-            <input type="text" id="longInput" placeholder="E.g., -105.308434">
-        </div>
-        <button class="btn" onclick="getWeather()"></button>
+        <button class="btn" onclick="getWeather()">Get Weather</button>
         <div class="weather-info" id="weatherInfo"></div>
     </div>
 
     <script>
         function getWeather() {
-            const lat = document.getElementById('latInput').value.trim();
-            const long = document.getElementById('longInput').value.trim();
-            const apiKey = 'YOUR_OPENWEATHER_API_KEY';
-            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${apiKey}&units=imperial`;
+            const locationInput = document.getElementById('locationInput').value.trim();
+            const apiUrl = `https://api.weather.gov/points/${locationInput}`;
 
             fetch(apiUrl)
                 .then(response => {
@@ -94,12 +79,23 @@
                     return response.json();
                 })
                 .then(data => {
+                    const forecastUrl = data.properties.forecast;
+                    return fetch(forecastUrl);
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
                     const weatherInfo = document.getElementById('weatherInfo');
                     weatherInfo.innerHTML = `
-                        <p>Location: ${data.name}, ${data.sys.country}</p>
-                        <p>Weather: ${data.weather[0].description}</p>
-                        <p>Temperature: ${data.main.temp}°F</p>
-                        <p>Wind Speed: ${data.wind.speed} mph</p>
+                        <img src="${data.properties.periods[0].icon}" alt="${data.properties.periods[0].shortForecast}">
+                        <p>Location: ${data.properties.relativeLocation.properties.city}, ${data.properties.relativeLocation.properties.state}</p>
+                        <p>Weather: ${data.properties.periods[0].shortForecast}</p>
+                        <p>Temperature: ${data.properties.periods[0].temperature}°F</p>
+                        <p>Wind Speed: ${data.properties.periods[0].windSpeed}</p>
                     `;
                 })
                 .catch(error => {
