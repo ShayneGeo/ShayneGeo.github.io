@@ -16,6 +16,23 @@
   canvas {
     border: 1px solid #333;
   }
+  .button {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #ff6f61;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  .button:hover {
+    background-color: #ff4940;
+  }
 </style>
 </head>
 <body>
@@ -149,11 +166,10 @@
   window.onload = initGame;
 
   // Back button
-  const backButton = document.createElement('button');
+  const backButton = document.createElement('a');
+  backButton.href = 'codebuttons.html';
   backButton.textContent = 'Back to Code Buttons.html';
-  backButton.onclick = function() {
-    window.location.href = 'codebuttons.html';
-  };
+  backButton.classList.add('button');
   document.body.appendChild(backButton);
 </script>
 </body>
