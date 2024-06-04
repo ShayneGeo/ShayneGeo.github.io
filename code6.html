@@ -66,10 +66,7 @@
   // Game loop
   function gameLoop() {
     moveSnake();
-    if (checkCollision()) {
-      gameOver();
-      return;
-    }
+    checkCollision();
     if (checkFood()) {
       eatFood();
       generateFood();
@@ -96,10 +93,12 @@
   // Check for collision with walls or itself
   function checkCollision() {
     const head = snake[0];
-    return (
+    if (
       head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height ||
       snake.slice(1).some(segment => segment.x === head.x && segment.y === head.y)
-    );
+    ) {
+      gameOver();
+    }
   }
 
   // Check if snake eats food
@@ -123,7 +122,17 @@
   // Game over
   function gameOver() {
     alert(`Game Over! Your score is ${score}.`);
-    window.location.reload(); // Restart game
+    resetGame();
+  }
+
+  // Reset game
+  function resetGame() {
+    snake = [{ x: 10, y: 10 }];
+    dx = 10;
+    dy = 0;
+    score = 0;
+    document.getElementById('score').textContent = 'Score: 0';
+    generateFood();
   }
 
   // Draw snake and food
