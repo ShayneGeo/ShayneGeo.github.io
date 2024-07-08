@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Shape Rotator</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        .controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .controls input, .controls label, .controls button, .controls a {
+            margin: 5px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #ff6f61;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #ff4940;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <label for="shapeType">Select Shape:</label>
+        <select id="shapeType">
+            <option value="cube">Cube</option>
+            <option value="sphere">Sphere</option>
+            <option value="cone">Cone</option>
+            <option value="cylinder">Cylinder</option>
+        </select>
+        <label for="size">Size:</label>
+        <input type="range" id="size" min="1" max="5" step="0.1" value="2">
+        <label for="rotationSpeed">Rotation Speed:</label>
+        <input type="range" id="rotationSpeed" min="0.01" max="0.1" step="0.01" value="0.05">
+        <a href="codebuttons.html" class="button">Back to Codebutton</a>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let scene, camera, renderer, shape;
+        let rotationSpeed = 0.05;
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 5;
+
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            const geometry = new THREE.BoxGeometry();
+            const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+            shape = new THREE.Mesh(geometry, material);
+            scene.add(shape);
+
+            window.addEventListener('resize', onWindowResize, false);
+            document.getElementById('size').addEventListener('input', onSizeChange);
+            document.getElementById('rotationSpeed').addEventListener('input', onRotationSpeedChange);
+            document.getElementById('shapeType').addEventListener('change', onShapeTypeChange);
+
+            animate();
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onSizeChange(event) {
+            const size = event.target.value;
+            shape.scale.set(size, size, size);
+        }
+
+        function onRotationSpeedChange(event) {
+            rotationSpeed = parseFloat(event.target.value);
+        }
+
+        function onShapeTypeChange(event) {
+            const shapeType = event.target.value;
+            scene.remove(shape);
+            if (shapeType === 'cube') {
+                const geometry = new THREE.BoxGeometry();
+                shape = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true }));
+            } else if (shapeType === 'sphere') {
+                const geometry = new THREE.SphereGeometry();
+                shape = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true }));
+            } else if (shapeType === 'cone') {
+                const geometry = new THREE.ConeGeometry();
+                shape = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: 0xffff00, wireframe: true }));
+            } else if (shapeType === 'cylinder') {
+                const geometry = new THREE.CylinderGeometry();
+                shape = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: 0x0000ff, wireframe: true }));
+            }
+            scene.add(shape);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            shape.rotation.x += rotationSpeed;
+            shape.rotation.y += rotationSpeed;
+            renderer.render(scene, camera);
+        }
+
+        init();
+    </script>
+</body>
+</html>

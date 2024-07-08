@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            border: 2px solid #fff;
+        }
+        #controls {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+        }
+        #backButton {
+            padding: 5px 10px;
+            background-color: #ff6f61;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="pongCanvas" width="800" height="400"></canvas>
+    <div id="controls">
+        <button id="backButton">Back</button>
+        <label for="difficultySelect">Difficulty:</label>
+        <select id="difficultySelect">
+            <option value="easy">Easy</option>
+            <option value="difficult">Difficult</option>
+        </select>
+    </div>
+    <script>
+        const canvas = document.getElementById('pongCanvas');
+        const ctx = canvas.getContext('2d');
+        const backButton = document.getElementById('backButton');
+        const difficultySelect = document.getElementById('difficultySelect');
+        let ballX = canvas.width / 2;
+        let ballY = canvas.height / 2;
+        let ballSpeedX = 5;
+        let ballSpeedY = 5;
+        let paddleHeight = 100;
+        let paddleWidth = 10;
+        let playerPaddleY = (canvas.height - paddleHeight) / 2;
+        let difficulty = 'easy';
+
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(ballX, ballY, 10, 0, Math.PI * 2);
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawPaddle(y) {
+            ctx.beginPath();
+            ctx.rect(0, y, paddleWidth, paddleHeight);
+            ctx.rect(canvas.width - paddleWidth, y, paddleWidth, paddleHeight);
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBall();
+            drawPaddle(playerPaddleY);
+
+            // Ball collision with walls
+            if (ballY + ballSpeedY > canvas.height || ballY + ballSpeedY < 0) {
+                ballSpeedY = -ballSpeedY;
+            }
+
+            // Ball collision with paddles
+            if (ballX + ballSpeedX > canvas.width - paddleWidth && ballY > playerPaddleY && ballY < playerPaddleY + paddleHeight ||
+                ballX + ballSpeedX < paddleWidth) {
+                ballSpeedX = -ballSpeedX;
+            }
+
+            // Ball out of bounds
+            if (ballX + ballSpeedX > canvas.width || ballX + ballSpeedX < 0) {
+                ballX = canvas.width / 2;
+                ballY = canvas.height / 2;
+                ballSpeedX = 5;
+                ballSpeedY = 5;
+            }
+
+            ballX += ballSpeedX;
+            ballY += ballSpeedY;
+
+            requestAnimationFrame(draw);
+        }
+
+        function handleKeyDown(event) {
+            if (event.key === 'ArrowUp' && playerPaddleY > 0) {
+                playerPaddleY -= 20;
+            } else if (event.key === 'ArrowDown' && playerPaddleY < canvas.height - paddleHeight) {
+                playerPaddleY += 20;
+            }
+        }
+
+        function handleBackButtonClick() {
+            window.history.back();
+        }
+
+        function handleDifficultyChange() {
+            difficulty = difficultySelect.value;
+        }
+
+        document.addEventListener('keydown', handleKeyDown);
+        backButton.addEventListener('click', handleBackButtonClick);
+        difficultySelect.addEventListener('change', handleDifficultyChange);
+
+        draw();
+    </script>
+</body>
+</html>

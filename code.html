@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spirograph</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f2; /* Light earthy background */
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        canvas {
+            border: 1px solid #333;
+            margin-top: 20px;
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .controls input, .controls select, .controls button {
+            margin: 5px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #ff6f61;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-top: 20px; /* Ensure there's space above the button */
+        }
+        .button:hover {
+            background-color: #ff4940;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spirograph</h1>
+    <div class="controls">
+        <label for="R">R (fixed circle radius):</label>
+        <input type="number" id="R" value="120">
+        <label for="r">r (moving circle radius):</label>
+        <input type="number" id="r" value="65">
+        <label for="O">O (offset):</label>
+        <input type="number" id="O" value="75">
+        <label for="chaos">Random Level:</label>
+        <input type="range" id="chaos" min="0" max="10" value="0" step="1">
+        <label for="mode">Mode:</label>
+        <select id="mode">
+            <option value="1">Mode 1</option>
+            <option value="2">Mode 2</option>
+        </select>
+        <button onclick="updateSpirograph()">Draw Spirograph</button>
+    </div>
+    <canvas id="spirographCanvas" width="400" height="400"></canvas>
+    <a href="codebuttons.html" class="button">Back to Codebutton</a>
+    <script>
+        function drawSpirograph(ctx, R, r, O, chaos, mode) {
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clear the canvas
+            let x1 = R - O;
+            let y1 = 0;
+            let i = 0;
+            const steps = 20000; // Increase this number for a more detailed spirograph
+            ctx.beginPath();
+            ctx.moveTo(x1 + 200, y1 + 200);
+            for (i = 0; i <= steps; i++) {
+                let angle = i * Math.PI / 72;
+                let randomFactor = 1 + (Math.random() - 0.5) * chaos / 10;
+                let x2, y2;
+
+                if (mode === "1") {
+                    x2 = randomFactor * ((R + r) * Math.cos(angle) - (r + O) * Math.cos(((R + r) / r) * angle));
+                    y2 = randomFactor * ((R + r) * Math.sin(angle) - (r + O) * Math.sin(((R + r) / r) * angle));
+                } else if (mode === "2") {
+                    // New equation for Mode 2
+                    x2 = randomFactor * ((R + r) * Math.cos(angle) - (r + O) * Math.sin(((R + r) / r) * angle));
+                    y2 = randomFactor * ((R + r) * Math.sin(angle) - (r + O) * Math.cos(((R + r) / r) * angle));
+                }
+
+                ctx.lineTo(x2 + 200, y2 + 200);
+            }
+            ctx.strokeStyle = '#2c5f2d';
+            ctx.stroke();
+        }
+
+        function updateSpirograph() {
+            const R = parseInt(document.getElementById('R').value);
+            const r = parseInt(document.getElementById('r').value);
+            const O = parseInt(document.getElementById('O').value);
+            const chaos = parseInt(document.getElementById('chaos').value);
+            const mode = document.getElementById('mode').value;
+            const canvas = document.getElementById('spirographCanvas');
+            const ctx = canvas.getContext('2d');
+            drawSpirograph(ctx, R, r, O, chaos, mode);
+        }
+
+        window.onload = function() {
+            updateSpirograph(); // Draw initial spirograph with default values
+        };
+    </script>
+</body>
+</html>

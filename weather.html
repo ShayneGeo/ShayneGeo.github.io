@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Widget</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .weather-info {
+            text-align: center;
+        }
+        .weather-info img {
+            margin-bottom: 10px;
+        }
+        .weather-info p {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Weather Widget</h1>
+        <div class="form-group">
+            <label for="locationInput">Enter Latitude/Longitude:</label>
+            <input type="text" id="locationInput" placeholder="E.g., 40.65525, -105.30843">
+        </div>
+        <button class="btn" onclick="getWeather()">Get Weather</button>
+        <div class="weather-info" id="weatherInfo"></div>
+    </div>
+
+    <script>
+        function getWeather() {
+            const locationInput = document.getElementById('locationInput').value.trim();
+            const apiUrl = `https://api.weather.gov/points/${locationInput}`;
+
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const forecastUrl = data.properties.forecast;
+                    return fetch(forecastUrl);
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const weatherInfo = document.getElementById('weatherInfo');
+                    weatherInfo.innerHTML = `
+                        <img src="${data.properties.periods[0].icon}" alt="${data.properties.periods[0].shortForecast}">
+                        <p>Location: ${data.properties.relativeLocation.properties.city}, ${data.properties.relativeLocation.properties.state}</p>
+                        <p>Weather: ${data.properties.periods[0].shortForecast}</p>
+                        <p>Temperature: ${data.properties.periods[0].temperature}°F</p>
+                        <p>Wind Speed: ${data.properties.periods[0].windSpeed}</p>
+                    `;
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                    const weatherInfo = document.getElementById('weatherInfo');
+                    weatherInfo.innerHTML = '<p>Error fetching weather data. Please try again.</p>';
+                });
+        }
+    </script>
+</body>
+</html>
