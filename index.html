@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Research and glass art by Shayne Magstadt."
+    />
+    <meta name="theme-color" content="#f5f1e8" />
+    <title>Shayne Magstadt | Research & Glass</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header">
+      <a class="wordmark" href="#bio" aria-label="Shayne Magstadt home">
+        <span class="wordmark-mark" aria-hidden="true">SM</span>
+        <span>Shayne Magstadt</span>
+      </a>
+
+      <nav class="tab-list" aria-label="Main navigation" role="tablist">
+        <button
+          class="tab-button is-active"
+          id="tab-bio"
+          type="button"
+          role="tab"
+          aria-selected="true"
+          aria-controls="panel-bio"
+          data-tab="bio"
+        >
+          Bio
+        </button>
+        <button
+          class="tab-button"
+          id="tab-research"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-research"
+          data-tab="research"
+        >
+          Research
+        </button>
+        <button
+          class="tab-button"
+          id="tab-marbles"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-marbles"
+          data-tab="marbles"
+        >
+          Marbles
+        </button>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <section
+        class="tab-panel bio-panel is-active"
+        id="panel-bio"
+        role="tabpanel"
+        aria-labelledby="tab-bio"
+        data-panel="bio"
+      >
+        <div class="bio-layout">
+          <figure class="portrait-frame">
+            <img
+              src="assets/profile-placeholder.webp"
+              alt="Placeholder profile photograph"
+            />
+            <figcaption>Placeholder photo — replace when ready</figcaption>
+          </figure>
+
+          <div class="bio-copy">
+            <p class="eyebrow">Bio</p>
+            <h1>Shayne Magstadt</h1>
+            <div class="fill-note">FILL THIS SECTION OUT</div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="tab-panel research-panel"
+        id="panel-research"
+        role="tabpanel"
+        aria-labelledby="tab-research"
+        data-panel="research"
+        hidden
+      >
+        <div class="section-intro">
+          <p class="eyebrow">Selected publications</p>
+          <h1>Research</h1>
+          <p>High-level overviews of published and current work.</p>
+        </div>
+
+        <div class="paper-grid">
+          <article class="paper-card">
+            <div class="paper-meta">
+              <span>2026</span>
+              <span>Wildfire aviation</span>
+            </div>
+            <h2>An assessment of aerial firefighting response times between agencies during the 2020 fire season in California</h2>
+            <p>
+              Open aircraft-tracking data were used to compare CAL FIRE and U.S. Forest Service aviation response across 7,214 California wildfires. The work shows how standardized ADS-B records can reveal cross-agency response patterns and support better resource coordination during initial attack.
+            </p>
+            <a class="paper-link" href="papers/aerial-firefighting-response-times.pdf" target="_blank" rel="noopener">
+              View full paper <span aria-hidden="true">↗</span>
+            </a>
+          </article>
+
+          <article class="paper-card">
+            <div class="paper-meta">
+              <span>2026</span>
+              <span>Geospatial AI</span>
+            </div>
+            <h2>AI-Assisted Screening of Candidate Pond-Based Drafting Locations in a Rural Wildland-Urban Interface Fire Response Area</h2>
+            <p>
+              This study tests whether multimodal AI can scan high-resolution aerial imagery for ponds that appear accessible to fire apparatus. The workflow identified candidate water sources for local review while showing why AI screening should support—not replace—field verification and firefighter judgment.
+            </p>
+            <a class="paper-link" href="papers/ai-drafting-ponds.pdf" target="_blank" rel="noopener">
+              View full paper <span aria-hidden="true">↗</span>
+            </a>
+          </article>
+
+          <article class="paper-card">
+            <div class="paper-meta">
+              <span>2026</span>
+              <span>Fire progression data</span>
+            </div>
+            <h2>A high spatial resolution daily fire perimeter progression dataset for wildfires in the Western United States: 2020–2024</h2>
+            <p>
+              National Infrared Operations perimeters were organized into a consistent, reusable dataset that captures daily wildfire growth across the western United States. The resulting resource supports fire-behavior modeling, risk analysis, ecological assessment, and operational research.
+            </p>
+            <a class="paper-link" href="papers/nirops-fire-progression-dataset.pdf" target="_blank" rel="noopener">
+              View full paper <span aria-hidden="true">↗</span>
+            </a>
+          </article>
+
+          <article class="paper-card">
+            <div class="paper-meta">
+              <span>2025</span>
+              <span>Fuel treatments</span>
+            </div>
+            <h2>A neural network model to study factors impacting the selection of hazardous fuel treatment types in Colorado’s national forests</h2>
+            <p>
+              A neural network was trained on a decade of management records from 11 Colorado national forests to study how treatment types have been selected. Wildfire risk, expected fire behavior, and proximity to structures emerged as important influences across six treatment categories.
+            </p>
+            <a class="paper-link" href="papers/hazardous-fuel-treatments.pdf" target="_blank" rel="noopener">
+              View full paper <span aria-hidden="true">↗</span>
+            </a>
+          </article>
+
+          <article class="paper-card">
+            <div class="paper-meta">
+              <span>2024</span>
+              <span>Deep learning</span>
+            </div>
+            <h2>A Deep Learning Approach for Predicting Aerial Suppressant Drops in Wildland Firefighting Using ADS-B Data</h2>
+            <p>
+              Aircraft trajectories from ADS-B were paired with verified suppressant-drop records to train sequential deep-learning models. The best model identified drop events with an F1 score of 0.922, demonstrating a path toward more complete, near-real-time awareness of aerial suppression activity.
+            </p>
+            <a class="paper-link" href="papers/deep-learning-aerial-drops.pdf" target="_blank" rel="noopener">
+              View full paper <span aria-hidden="true">↗</span>
+            </a>
+          </article>
+
+          <article class="paper-card">
+            <div class="paper-meta">
+              <span>2024</span>
+              <span>Wildfire workforce</span>
+            </div>
+            <h2>Retention of highly qualified wildland firefighters in the Western United States</h2>
+            <p>
+              Employment histories for Interagency Hotshot Crew members were analyzed to understand why experienced firefighters stay or leave. Greater workload and cumulative experience were associated with stronger retention, while wages in alternative occupations were not a significant predictor.
+            </p>
+            <a class="paper-link" href="papers/firefighter-retention.pdf" target="_blank" rel="noopener">
+              View full paper <span aria-hidden="true">↗</span>
+            </a>
+          </article>
+
+          <article class="paper-card">
+            <div class="paper-meta">
+              <span>2021</span>
+              <span>UAV remote sensing</span>
+            </div>
+            <h2>Can a Remote Sensing Approach with Hyperspectral Data Provide Early Detection and Mapping of Black Bear Bark Stripping in Coast Redwoods?</h2>
+            <p>
+              UAV hyperspectral imagery was evaluated as a way to find bear-damaged redwoods before the damage becomes obvious from the air. Healthy trees could be separated from trees with older damage, while very recent damage remained difficult to distinguish—helping define the next steps for earlier detection.
+            </p>
+            <a class="paper-link" href="papers/black-bear-bark-stripping.pdf" target="_blank" rel="noopener">
+              View full paper <span aria-hidden="true">↗</span>
+            </a>
+          </article>
+
+          <article class="paper-card">
+            <div class="paper-meta">
+              <span>2020</span>
+              <span>Coastal landscapes</span>
+            </div>
+            <h2>Factors Influencing Movement of the Manila Dunes and Its Impact on Establishing Non-Native Species</h2>
+            <p>
+              Fine-scale UAV imagery and photogrammetry were used to measure dune movement and map vegetation at California’s Manila Dunes. The study connected dune stability with trails, topography, and plant cover, providing a baseline for managing recreation and invasive species in a dynamic coastal system.
+            </p>
+            <a class="paper-link" href="papers/manila-dunes.pdf" target="_blank" rel="noopener">
+              View full paper <span aria-hidden="true">↗</span>
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <section
+        class="tab-panel marble-panel"
+        id="panel-marbles"
+        role="tabpanel"
+        aria-labelledby="tab-marbles"
+        data-panel="marbles"
+        hidden
+      >
+        <div class="marble-glow marble-glow-one" aria-hidden="true"></div>
+        <div class="marble-glow marble-glow-two" aria-hidden="true"></div>
+
+        <div class="marble-content">
+          <div class="marble-heading">
+            <p class="eyebrow">Glass work · color studies · small worlds</p>
+            <h1>Marbles</h1>
+          </div>
+
+          <div class="marble-grid" id="marble-grid" aria-live="polite"></div>
+
+          <p class="gallery-status" id="gallery-status" hidden>
+            Add marble photos to the MARBLES folder to show them here.
+          </p>
+
+          <footer class="marble-footer">
+            <a
+              href="https://www.instagram.com/woodlotpyrocrafters/"
+              target="_blank"
+              rel="noopener"
+              aria-label="Visit Woodlot Pyro Crafters on Instagram"
+            >
+              See more on Instagram
+              <strong>@woodlotpyrocrafters</strong>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </footer>
+        </div>
+      </section>
+    </main>
+
+    <div
+      class="lightbox"
+      id="lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden="true"
+      aria-label="Expanded marble photograph"
+      hidden
+    >
+      <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Close image">×</button>
+      <button class="lightbox-arrow lightbox-previous" id="lightbox-previous" type="button" aria-label="Previous image">←</button>
+      <figure>
+        <img id="lightbox-image" alt="" />
+      </figure>
+      <button class="lightbox-arrow lightbox-next" id="lightbox-next" type="button" aria-label="Next image">→</button>
+    </div>
+
+    <script src="marbles.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
