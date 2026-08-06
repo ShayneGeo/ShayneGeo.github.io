@@ -405,7 +405,10 @@ async function loadMarbles() {
   const repository = getGitHubRepository();
   if (!repository) return;
 
-  const apiUrl = `https://api.github.com/repos/${encodeURIComponent(repository.owner)}/${encodeURIComponent(repository.repository)}/contents/MARBLES`;
+  const branch = "B13";
+  const apiUrl =
+    `https://api.github.com/repos/${encodeURIComponent(repository.owner)}/` +
+    `${encodeURIComponent(repository.repository)}/contents/MARBLES?ref=${encodeURIComponent(branch)}`;
 
   try {
     const githubImages = await readGitHubFolder(apiUrl);
